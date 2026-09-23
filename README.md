@@ -1,13 +1,5 @@
 
 
-https://github.com/user-attachments/assets/36b5e2ad-b36d-411a-873d-367a2b6f3e7d
-
-
-
-https://github.com/user-attachments/assets/afed0c4d-aa2d-4e83-8821-b568d14546ee
-
-
-
 https://github.com/user-attachments/assets/948a1b20-2fc4-4914-b4ad-4927def445bd
 
 # High-Performance Concurrent Network Routing & Topography Simulator
@@ -95,6 +87,12 @@ Enter Command: ROUTE Delhi Bengaluru
 [VIEW GRAPH] Operational Path Matrix: [Delhi, Bengaluru] | Metric Cost: 100ms
 
 [RATE LIMIT ACTIVE] Drop packet sequence at entry point: Delhi
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/7fbdb1ae-e337-406c-b12f-ceea79f4f63e" />
+<img width="1052" height="696" alt="Screenshot 2026-09-24 010954" src="https://github.com/user-attachments/assets/2e621e40-cccc-4cf3-b0c9-7f28c531ba55" />
+
+
+
+
 
 
 
