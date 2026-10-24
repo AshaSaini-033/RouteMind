@@ -10,11 +10,7 @@ import networksimulator.metrics.SimulationMetrics;
 import networksimulator.routing.BackupRouteManager;
 import networksimulator.routing.DijkstraRouter;
 
-/**
- * CLI-driven concurrent traffic simulator. Uses an in-memory topology, not real sockets.
- * Current controller API cannot distinguish a rate-limited null route from an unreachable route;
- * until typed routing outcomes are added, null outcomes are reported as route failures.
- */
+/** CLI-driven concurrent traffic simulator over an in-memory topology, not real sockets. */
 public final class SimulationEngine implements AutoCloseable {
     private final RoutingController controller;
     private final SimulationConfig config;
@@ -51,8 +47,12 @@ public final class SimulationEngine implements AutoCloseable {
         long start=System.nanoTime();
         try {
             var path=new BackupRouteManager(new DijkstraRouter()).findCurrentRoute(controller,packet.getSource(),packet.getDestination());
-            if(path==null||path.isEmpty())metrics.noRoute();
-            else metrics.delivered(System.nanoTime()-start);
+            if(path==null||path.isEmpty()) {
+                if(controller.wasLastRequestRateLimited()) metrics.rateLimited();
+                else metrics.noRoute();
+            } else {
+                metrics.delivered(System.nanoTime()-start);
+            }
         } catch(RuntimeException error){metrics.noRoute();}
         finally{completed.incrementAndGet();}
     }
