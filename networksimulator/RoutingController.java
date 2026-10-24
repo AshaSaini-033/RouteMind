@@ -7,6 +7,12 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class RoutingController {
     private final Map<String, RouterNode> adjacencyList = new ConcurrentHashMap<>();
     private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
+    // Per-calling-thread outcome so concurrent simulation workers can classify null routes safely.
+    private final ThreadLocal<Boolean> lastRequestRateLimited = ThreadLocal.withInitial(() -> false);
+
+    public boolean wasLastRequestRateLimited() {
+        return lastRequestRateLimited.get();
+    }
 
     public void addNode(String name) {
         rwLock.writeLock().lock();
@@ -92,7 +98,9 @@ public class RoutingController {
                     RouterNode vNode = adjacencyList.get(neighbor.getTarget());
                     if (vNode == null || !vNode.isAlive()) continue;
 
-                    int newDist = distances.get(u) + neighbor.getLatencyMs();
+                    long candidate = (long) distances.get(u) + neighbor.getLatencyMs();
+                    if (candidate >= Integer.MAX_VALUE) continue;
+                    int newDist = (int) candidate;
                     if (newDist < distances.get(neighbor.getTarget())) {
                         distances.put(neighbor.getTarget(), newDist);
                         parentMap.put(neighbor.getTarget(), u);
