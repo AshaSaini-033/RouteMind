@@ -91,12 +91,3 @@ Enter Command: ROUTE Delhi Bengaluru
 
 
 
-
-
-## RouteMind simulation upgrade (development branch)
-
-The `feature/network-simulation-hld` branch adds a CLI-driven traffic simulation foundation. See [README_SIMULATION.md](networksimulator/README_SIMULATION.md) for its scope and current limitations.
-
-New components include a rate-controlled traffic producer, bounded concurrent worker pool, request model, thread-safe metrics, routing strategy seam, circuit-breaker state machine, and retry backoff policy. The CLI now includes `SIMULATE`, `RECOVER`, and input validation.
-
-**Important:** this is an in-memory simulation, not real network packet transmission. Reported latency currently measures local route-computation time. Link-specific latency injection, automatic retries, active circuit-breaker integration, health probing, and full backup-route orchestration are not yet wired into request processing. These are explicit next steps, not claimed completed features.
